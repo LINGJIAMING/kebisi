@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骑行服电商图生成指导与Prompt方案</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 40px 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header p { font-size: 16px; opacity: 0.8; }
+        .section { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .section h2 { font-size: 22px; color: #1a1a2e; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 3px solid #0f3460; display: flex; align-items: center; gap: 8px; }
+        .section h2 .icon { font-size: 26px; }
+        .section h3 { font-size: 18px; color: #16213e; margin: 20px 0 10px; }
+        .section p { margin-bottom: 12px; font-size: 15px; }
+        .highlight-box { background: #f0f4ff; border-left: 4px solid #0f3460; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+        .warning-box { background: #fff8e1; border-left: 4px solid #ff9800; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+        .success-box { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+        th { background: #1a1a2e; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .prompt-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin: 16px 0; }
+        .prompt-card .prompt-title { font-size: 16px; font-weight: bold; color: #0f3460; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .prompt-card .prompt-body { background: #1e1e1e; color: #e0e0e0; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; white-space: pre-wrap; line-height: 1.6; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 2px 10px; border-radius: 12px; font-size: 12px; margin: 2px; }
+        .tag.red { background: #ffebee; color: #c62828; }
+        .tag.green { background: #e8f5e9; color: #2e7d32; }
+        .tag.orange { background: #fff3e0; color: #e65100; }
+        .tag.purple { background: #f3e5f5; color: #7b1fa2; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .card { background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e0e0e0; }
+        .card h4 { color: #0f3460; margin-bottom: 8px; font-size: 15px; }
+        .card p { font-size: 13px; margin-bottom: 6px; }
+        .stat { text-align: center; padding: 16px; background: linear-gradient(135deg, #0f3460, #16213e); color: white; border-radius: 10px; }
+        .stat .num { font-size: 32px; font-weight: bold; }
+        .stat .label { font-size: 13px; opacity: 0.8; }
+        .toc { background: #f0f4ff; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+        .toc h3 { color: #0f3460; margin-bottom: 10px; }
+        .toc ul { list-style: none; }
+        .toc li { padding: 4px 0; }
+        .toc a { color: #1565c0; text-decoration: none; font-size: 14px; }
+        .toc a:hover { text-decoration: underline; }
+        .copy-btn { float: right; background: #0f3460; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .copy-btn:hover { background: #1a1a2e; }
+        @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚴 骑行服电商图生成指导与Prompt方案</h1>
+        <p>基于50款热销骑行服商品的视觉分析 · 为商家提供实物转电商图的AI生成指南</p>
+    </div>
+
+    <div class="toc">
+        <h3>📋 目录</h3>
+        <ul>
+            <li><a href="#analysis">一、骑行服热销产品视觉特征分析</a></li>
+            <li><a href="#styles">二、电商图5大核心拍摄风格解析</a></li>
+            <li><a href="#guide">三、商家实物转电商图样式指导</a></li>
+            <li><a href="#prompts">四、AI生成电商图Prompt方案（6套）</a></li>
+            <li><a href="#tips">五、吸引消费者的关键要素清单</a></li>
+        </ul>
+    </div>
+
+    <!-- 数据概览 -->
+    <div class="section">
+        <h2><span class="icon">📊</span> 数据概览</h2>
+        <div class="grid-3">
+            <div class="stat"><div class="num">50</div><div class="label">分析商品数</div></div>
+            <div class="stat"><div class="num">449</div><div class="label">商品图片总数</div></div>
+            <div class="stat"><div class="num">6</div><div class="label">产品子类目</div></div>
+        </div>
+        <h3>产品类目分布</h3>
+        <table>
+            <tr><th>类目</th><th>商品数</th><th>典型产品</th></tr>
+            <tr><td>骑行短裤 / 背带短裤</td><td>~18</td><td>带硅胶护垫的专业骑行短裤、背带式骑行短裤</td></tr>
+            <tr><td>骑行T恤 / 骑行衫</td><td>~10</td><td>短袖骑行 jersey、渐变配色骑行T恤</td></tr>
+            <tr><td>骑行套装</td><td>~8</td><td>上衣+背带短裤组合套装、车队风格套装</td></tr>
+            <tr><td>骑行夹克</td><td>~5</td><td>立领骑行夹克、拼色防护夹克</td></tr>
+            <tr><td>骑行长裤 / 紧身裤</td><td>~5</td><td>牛仔骑行裤、紧身骑行裤、雨裤</td></tr>
+            <tr><td>骑行背心 / 连体服</td><td>~4</td><td>网眼透气背心、专业连体骑行服</td></tr>
+        </table>
+    </div>
+
+    <!-- 视觉分析 -->
+    <div class="section" id="analysis">
+        <h2><span class="icon">🔍</span> 一、骑行服热销产品视觉特征分析</h2>
+        
+        <h3>1.1 拍摄风格分布</h3>
+        <table>
+            <tr><th>拍摄风格</th><th>占比</th><th>特点描述</th></tr>
+            <tr><td><span class="tag">白底平铺图</span></td><td>~45%</td><td>纯白背景、产品平铺正面展示、突出版型和设计细节、适合SKU主图</td></tr>
+            <tr><td><span class="tag purple">模特实拍图</span></td><td>~30%</td><td>真人模特穿着展示、浅灰/纯白背景、展示穿着效果和修身剪裁</td></tr>
+            <tr><td><span class="tag orange">信息图+白底</span></td><td>~15%</td><td>白底主图叠加功能说明图标、剖面结构图、技术参数标注</td></tr>
+            <tr><td><span class="tag green">场景+细节组合图</span></td><td>~10%</td><td>主图+多角度细节特写、展示内部结构和功能性设计</td></tr>
+        </table>
+
+        <h3>1.2 色彩方案分析</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>🎨 主流配色方案</h4>
+                <p><strong>黑灰系</strong>（最常见）：黑色主体+灰色辅色，科技感、专业感强</p>
+                <p><strong>拼色竞技系</strong>：黑白红三色拼接，视觉冲击力强，车队风格</p>
+                <p><strong>时尚渐变系</strong>：浅紫/薰衣草渐变，清新时尚感</p>
+                <p><strong>复古工装系</strong>：深蓝牛仔色+黑色拼接，休闲实用</p>
+                <p><strong>沉稳单色系</strong>：深棕/赭石色，低调专业感</p>
+            </div>
+            <div class="card">
+                <h4>💡 色彩使用建议</h4>
+                <p>✅ 深色系（黑/灰/深蓝）体现专业感，适合竞技骑行产品</p>
+                <p>✅ 亮色点缀（红/蓝/荧光色）增加视觉吸引力，用于品牌标识和装饰条</p>
+                <p>✅ 渐变色提升时尚感，适合休闲骑行产品</p>
+                <p>✅ 白底+产品本色是最安全的电商图配色方案</p>
+            </div>
+        </div>
+
+        <h3>1.3 构图与角度特征</h3>
+        <div class="highlight-box">
+            <p><strong>白底平铺图：</strong>正面平铺、居中构图、45度角展示护垫/内部结构</p>
+            <p><strong>模特实拍图：</strong>正面/背面45度、半身/全身展示、双手自然下垂</p>
+            <p><strong>细节特写图：</strong>剖面结构展示、面料纹理微距、拉链/缝线/护垫特写</p>
+            <p><strong>套装展示图：</strong>上衣+裤装并排平铺、前后结构对比展示</p>
+        </div>
+
+        <h3>1.4 光影与质感表现</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>☀️ 光影特征</h4>
+                <p>• 正面柔光为主，光线均匀分布</p>
+                <p>• 无硬阴影，底部轻微投影增加立体感</p>
+                <p>• 面料光泽适度呈现，避免过曝反光</p>
+                <p>• 柔和漫射光突出面料纹理和缝线细节</p>
+            </div>
+            <div class="card">
+                <h4>🧵 质感表现</h4>
+                <p>• 网格/网眼透气纹理清晰可见</p>
+                <p>• 合成纤维的细腻光泽感</p>
+                <p>• 牛仔布的自然褶皱和纹理</p>
+                <p>• 拉链、缝线、护垫的立体感呈现</p>
+            </div>
+        </div>
+
+        <h3>1.5 功能卖点展示方式</h3>
+        <table>
+            <tr><th>卖点类型</th><th>展示方式</th><th>示例</th></tr>
+            <tr><td>护垫/凝胶垫</td><td>剖面结构图+图标标注</td><td>"6小时无压力"、"SILICA GEL"标签</td></tr>
+            <tr><td>透气性</td><td>网眼细节特写+蓝色箭头指示</td><td>背部网眼设计、腋下透气区</td></tr>
+            <tr><td>品牌标识</td><td>胸前Logo特写+袖子文字</td><td>"MAAP"、"UAE"、"SHBEIK"品牌名</td></tr>
+            <tr><td>拼接设计</td><td>多角度展示拼接缝线</td><td>膝盖加固条纹、裤腿拼接设计</td></tr>
+            <tr><td>拉链/口袋</td><td>细节特写图</td><td>中央拉链、胸前口袋、袖口拉链</td></tr>
+        </table>
+    </div>
+
+    <!-- 拍摄风格 -->
+    <div class="section" id="styles">
+        <h2><span class="icon">📸</span> 二、电商图5大核心拍摄风格解析</h2>
+
+        <div class="prompt-card">
+            <div class="prompt-title">风格1：白底平铺产品图 <span class="tag">主图必备</span></div>
+            <p><strong>用途：</strong>SKU主图、搜索结果展示图</p>
+            <p><strong>特征：</strong>纯白背景(255,255,255)、产品正面平铺、居中构图、正面柔光、底部轻微投影</p>
+            <p><strong>适用产品：</strong>所有骑行服品类</p>
+            <p><strong>关键要素：</strong>面料纹理清晰、品牌Logo可读、拉链/缝线细节可见、色彩还原准确</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-title">风格2：模特穿着展示图 <span class="tag purple">转化利器</span></div>
+            <p><strong>用途：</strong>详情页主图、广告投放图</p>
+            <p><strong>特征：</strong>真人模特穿着、浅灰/纯白背景、正面或45度角、半身或全身展示</p>
+            <p><strong>适用产品：</strong>骑行T恤、骑行短裤、骑行套装、骑行夹克</p>
+            <p><strong>关键要素：</strong>模特身材匀称、姿态自然端正、展示修身剪裁效果、服装贴合度好</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-title">风格3：功能信息图 <span class="tag orange">差异化卖点</span></div>
+            <p><strong>用途：</strong>详情页功能卖点图、竞品差异化展示</p>
+            <p><strong>特征：</strong>白底主图+功能图标标注+剖面结构示意图+技术参数文字</p>
+            <p><strong>适用产品：</strong>带护垫的骑行裤、透气骑行服、功能性夹克</p>
+            <p><strong>关键要素：</strong>功能图标简洁明了、剖面图展示内部结构、文字标注精准</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-title">风格4：多角度细节组合图 <span class="tag green">信任建立</span></div>
+            <p><strong>用途：</strong>详情页中部、打消购买疑虑</p>
+            <p><strong>特征：</strong>主图+3-4个细节特写小图、展示不同角度和局部细节</p>
+            <p><strong>适用产品：</strong>结构复杂的骑行裤、多口袋夹克、连体服</p>
+            <p><strong>关键要素：</strong>细节图覆盖关键卖点、角度互补、背景统一白色</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-title">风格5：场景化穿着图 <span class="tag red">情感连接</span></div>
+            <p><strong>用途：</strong>品牌形象图、社交媒体推广、详情页头部</p>
+            <p><strong>特征：</strong>户外骑行场景、公路/山道背景、动态骑行姿态、自然光线</p>
+            <p><strong>适用产品：</strong>所有品类（适合高端/品牌化产品）</p>
+            <p><strong>关键要素：</strong>场景与产品调性匹配、光线自然、动态感强、品牌曝光</p>
+        </div>
+    </div>
+
+    <!-- 商家指导 -->
+    <div class="section" id="guide">
+        <h2><span class="icon">📝</span> 三、商家实物转电商图样式指导</h2>
+
+        <div class="warning-box">
+            <p><strong>⚠️ 核心原则：</strong>商家有实物，需要通过AI图生图（i2i）技术，将实物平铺图/挂拍图转化为专业级电商图。关键在于保留产品真实细节的同时，提升整体视觉品质和吸引力。</p>
+        </div>
+
+        <h3>3.1 实物拍摄要点（输入图质量决定输出质量）</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>📱 实物拍摄最低要求</h4>
+                <p>1. <strong>光线</strong>：自然柔光或柔光箱，避免直射光和阴影</p>
+                <p>2. <strong>背景</strong>：纯白或浅色背景，无杂物</p>
+                <p>3. <strong>角度</strong>：正面平铺，服装展平无褶皱</p>
+                <p>4. <strong>清晰度</strong>：对焦准确，面料纹理/Logo可辨识</p>
+                <p>5. <strong>色彩</strong>：白平衡准确，颜色还原真实</p>
+            </div>
+            <div class="card">
+                <h4>⭐ 加分项（提升AI生成效果）</h4>
+                <p>1. <strong>多角度拍摄</strong>：正面+背面+侧面+细节特写</p>
+                <p>2. <strong>细节特写</strong>：拉链、缝线、护垫、Logo、面料纹理</p>
+                <p>3. <strong>穿着效果</strong>：真人穿着拍照（即使非专业模特）</p>
+                <p>4. <strong>平铺展平</strong>：服装各部位展平，展示完整版型</p>
+                <p>5. <strong>道具辅助</strong>：用衣架悬挂拍摄，展示垂坠感</p>
+            </div>
+        </div>
+
+        <h3>3.2 不同产品的推荐生成方案</h3>
+        <table>
+            <tr><th>产品类型</th><th>推荐风格</th><th>生成要点</th></tr>
+            <tr><td>骑行短裤/背带短裤</td><td>白底平铺+功能信息图</td><td>突出护垫结构、透气网格、腰带设计</td></tr>
+            <tr><td>骑行T恤/骑行衫</td><td>模特穿着图+白底平铺</td><td>展示修身剪裁、品牌Logo、拉链细节</td></tr>
+            <tr><td>骑行套装</td><td>白底平铺组合图</td><td>上衣+裤装并排展示、前后结构对比</td></tr>
+            <tr><td>骑行夹克</td><td>白底平铺+多角度细节</td><td>展示立领设计、拉链口袋、拼接线条</td></tr>
+            <tr><td>骑行长裤/紧身裤</td><td>模特穿着+细节特写</td><td>展示裤型立体感、膝盖加固、护垫位置</td></tr>
+            <tr><td>骑行背心</td><td>白底平铺+网眼细节</td><td>突出透气网眼面料、品牌Logo、版型</td></tr>
+        </table>
+
+        <h3>3.3 AI生成操作流程</h3>
+        <div class="success-box">
+            <p><strong>Step 1：</strong>拍摄实物图（白底平铺或真人穿着）</p>
+            <p><strong>Step 2：</strong>选择对应的Prompt模板（见下方第四节）</p>
+            <p><strong>Step 3：</strong>使用图生图（i2i）工具，输入实物图+Prompt</p>
+            <p><strong>Step 4：</strong>调整生成参数（宽高比、风格强度等）</p>
+            <p><strong>Step 5：</strong>对生成结果进行筛选和微调</p>
+            <p><strong>Step 6：</strong>生成多角度/多风格图片，组合成完整详情页</p>
+        </div>
+    </div>
+
+    <!-- Prompt方案 -->
+    <div class="section" id="prompts">
+        <h2><span class="icon">🎯</span> 四、AI生成电商图Prompt方案（6套）</h2>
+        <p>以下每套Prompt均可直接复制使用，配合商家的实物图片进行图生图（i2i）生成。</p>
+
+        <!-- Prompt 1 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 1：白底平铺主图（通用型）</div>
+            <p><span class="tag">适用：所有品类</span> <span class="tag purple">宽高比：1:1</span> <span class="tag green">用途：SKU主图</span></p>
+            <div class="prompt-body">真实摄影质感的电商产品白底平铺图，骑行服正面平铺展示，纯白色背景(255,255,255)，服装展平无褶皱，居中构图。正面柔和均匀光线照射，面料纹理清晰可见，网格透气纹理细腻呈现，拉链缝线等细节锐利清晰，品牌Logo清晰可读。底部有轻微柔和投影增加立体感，色彩还原准确真实，专业电商产品摄影风格，高清晰度，4K质感，画面干净简洁突出产品本身</div>
+        </div>
+
+        <!-- Prompt 2 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 2：模特穿着展示图（专业型）</div>
+            <p><span class="tag">适用：T恤/短裤/套装/夹克</span> <span class="tag purple">宽高比：3:4</span> <span class="tag green">用途：详情页主图</span></p>
+            <div class="prompt-body">真实摄影质感的专业电商模特穿着展示图，身材匀称的男性模特穿着骑行服正面站立展示，浅灰色纯色背景，模特双手自然下垂姿态端正，表情专注自然。正面柔光均匀照射，面部光线柔和，服装的修身剪裁和贴合度完美呈现，面料纹理和光泽感细腻自然，品牌Logo和印花清晰可见，腋下透气设计和袖口细节展示充分。柔和阴影增加立体感，整体画面专业运动调性，4K高清晰度电商摄影风格</div>
+        </div>
+
+        <!-- Prompt 3 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 3：功能信息图（护垫/透气型）</div>
+            <p><span class="tag">适用：骑行短裤/背带短裤</span> <span class="tag purple">宽高比：1:1</span> <span class="tag green">用途：功能卖点图</span></p>
+            <div class="prompt-body">专业电商功能信息图，骑行短裤白底主图左侧叠加功能说明图标组合。主图展示短裤正面45度角，突出护垫位置和立体结构。左侧信息区域包含：圆形时钟图标标注"6H"表示6小时舒适防护，文字标注"Long Distance Without Pressure"，护垫剖面结构示意图展示多层材质包括硅胶凝胶层和透气层，蓝色箭头指示透气方向。纯白背景，正面柔光，面料网格纹理清晰，护垫立体感强，信息图标简洁现代，整体科技感专业感强，4K电商信息图风格</div>
+        </div>
+
+        <!-- Prompt 4 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 4：多角度细节组合图</div>
+            <p><span class="tag">适用：所有品类</span> <span class="tag purple">宽高比：4:3</span> <span class="tag green">用途：详情页中部</span></p>
+            <div class="prompt-body">专业电商多角度细节组合图，左侧大面积主图展示骑行服正面平铺全貌，右侧排列三个方形细节特写小图：上方特写展示面料网眼透气纹理微距细节，中间特写展示拉链和缝线做工细节，下方特写展示品牌Logo印花清晰度。所有图片统一纯白背景，正面柔光均匀照射，细节图锐利清晰微距质感强，面料纹理、缝线走线、拉链齿牙等细节纤毫毕现，整体排版专业整洁，4K电商详情图风格</div>
+        </div>
+
+        <!-- Prompt 5 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 5：场景化骑行图（情感型）</div>
+            <p><span class="tag">适用：所有品类</span> <span class="tag purple">宽高比：3:4</span> <span class="tag green">用途：品牌形象/详情页头部</span></p>
+            <div class="prompt-body">真实摄影质感的户外骑行场景图，穿着骑行服的骑手在阳光明媚的公路上骑行，动态侧面姿态展示服装穿着效果。背景是模糊的青山绿树公路场景，自然阳光从侧前方照射形成温暖光影，服装面料在自然光下呈现真实的光泽和纹理，修身剪裁在运动姿态下完美贴合身体，品牌Logo在阳光下清晰可见。画面充满速度感和运动活力，景深虚化突出骑手和服装主体，专业运动摄影风格，4K高清晰度，温暖阳光调性</div>
+        </div>
+
+        <!-- Prompt 6 -->
+        <div class="prompt-card">
+            <div class="prompt-title">Prompt 6：45度背面展示图（专业型）</div>
+            <p><span class="tag">适用：背带短裤/套装/夹克</span> <span class="tag purple">宽高比：3:4</span> <span class="tag green">用途：多角度展示补充</span></p>
+            <div class="prompt-body">真实摄影质感的电商模特背面45度展示图，男性模特穿着骑行服背对镜头45度角站立，浅灰色纯色背景。展示骑行服背部设计细节：背部网眼透气区域、肩部拼接缝线、腰带品牌标识、背带固定结构。正面柔光均匀照射，背部面料纹理和网眼结构清晰可见，缝线走线细节锐利，立体剪裁在斜侧角度下呈现完美的身体线条贴合感。模特双手自然下垂，姿态稳定自然，柔和阴影增加层次感，专业电商摄影风格，4K高清晰度</div>
+        </div>
+    </div>
+
+    <!-- 关键要素 -->
+    <div class="section" id="tips">
+        <h2><span class="icon">✅</span> 五、吸引消费者的关键要素清单</h2>
+
+        <h3>5.1 图片层面（直接影响点击率）</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>🎯 主图优化清单</h4>
+                <p>✅ 纯白背景，产品占比≥60%</p>
+                <p>✅ 面料纹理清晰可辨（网格/光泽/纹理）</p>
+                <p>✅ 品牌Logo清晰可读</p>
+                <p>✅ 拉链/缝线/护垫等细节可见</p>
+                <p>✅ 色彩还原准确，无色差</p>
+                <p>✅ 光线均匀柔和，无过曝/阴影</p>
+                <p>✅ 服装展平，版型完整展示</p>
+            </div>
+            <div class="card">
+                <h4>💡 差异化要素</h4>
+                <p>⭐ 功能图标标注（护垫/透气/防紫外线等）</p>
+                <p>⭐ 剖面结构图（展示内部科技材料）</p>
+                <p>⭐ 多角度组合图（正面+背面+细节）</p>
+                <p>⭐ 模特穿着对比图（平铺vs上身效果）</p>
+                <p>⭐ 场景化骑行图（建立情感连接）</p>
+                <p>⭐ 技术参数标注（面料成分/重量/防护等级）</p>
+            </div>
+        </div>
+
+        <h3>5.2 Prompt优化技巧</h3>
+        <div class="highlight-box">
+            <p><strong>1. 面料质感描述要具体：</strong>不要只写"面料"，要写"网格透气纹理"、"细腻合成纤维光泽"、"牛仔布自然褶皱"</p>
+            <p><strong>2. 光影描述要专业：</strong>"正面柔光均匀照射"、"柔和漫射光"、"底部轻微投影增加立体感"</p>
+            <p><strong>3. 细节要素要穷举：</strong>拉链、缝线、护垫、Logo、透气网眼、拼接线条——每个都写进prompt</p>
+            <p><strong>4. 背景描述要明确：</strong>"纯白背景(255,255,255)"或"浅灰色纯色背景"，避免"简洁背景"这种模糊描述</p>
+            <p><strong>5. 风格定位要精准：</strong>"专业电商产品摄影风格"、"4K高清晰度"——给AI明确的品质标准</p>
+            <p><strong>6. 宽高比选择要合理：</strong>主图用1:1，模特图用3:4，组合图用4:3，场景图用3:4或16:9</p>
+        </div>
+
+        <h3>5.3 不同宽高比适用场景</h3>
+        <table>
+            <tr><th>宽高比</th><th>分辨率</th><th>适用场景</th></tr>
+            <tr><td>1:1</td><td>1024×1024</td><td>SKU主图、白底平铺图、功能信息图</td></tr>
+            <tr><td>3:4</td><td>896×1184</td><td>模特穿着展示图、场景骑行图</td></tr>
+            <tr><td>4:3</td><td>1184×896</td><td>多角度细节组合图、套装展示图</td></tr>
+            <tr><td>16:9</td><td>1376×768</td><td>详情页头部横幅、品牌形象图</td></tr>
+        </table>
+
+        <div class="success-box" style="margin-top: 20px;">
+            <p style="font-size: 16px; font-weight: bold;">📌 使用建议</p>
+            <p>1. 建议为每个产品生成<strong>至少5张图</strong>：1张白底主图 + 1张模特穿着图 + 1张功能信息图 + 1张细节组合图 + 1张场景图</p>
+            <p>2. 生成时将实物图作为参考图输入，配合上面对应的Prompt模板</p>
+            <p>3. 可以在基础Prompt上叠加产品特有的细节描述（如颜色、特殊设计等）</p>
+            <p>4. 生成后检查：面料纹理是否准确、Logo是否清晰、颜色是否还原、细节是否完整</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 20px; color: #999; font-size: 13px;">
+        <p>基于50款热销骑行服商品的449张图片视觉分析生成 | 适用于AI图生图（i2i）电商图制作</p>
+    </div>
+</div>
+</body>
+</html>
