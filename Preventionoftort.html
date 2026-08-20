@@ -600,6 +600,151 @@ tr:nth-child(even){background:#f9f9f9;}
 </ul>
 </div>
 
+<!-- 无脑教程 -->
+<div class="card">
+<h2><span class="icon">🤖</span> 七、无脑教程 — 一键复制Prompt排查</h2>
+
+<p style="font-size:14px;margin-bottom:14px;">不知道怎么排查？直接复制下面的Prompt，粘贴到对应的AI工具里，跟着回答一步步操作即可。两个模板覆盖所有排查场景，<strong>无需任何专业知识</strong>。</p>
+
+<div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:20px;border-radius:12px;margin-bottom:20px;">
+<h3 style="color:#fff;font-size:16px;margin-bottom:8px;">📋 使用流程</h3>
+<p style="font-size:13px;opacity:0.9;">① 准备好你的产品图片和产品上的文字 → ② 选择下方对应模板 → ③ 复制Prompt → ④ 粘贴到AI对话框 → ⑤ 上传产品图 → ⑥ 发送 → ⑦ 按AI回复操作</p>
+</div>
+
+<h3 style="color:#16213e;font-size:16px;margin-bottom:10px;">🔶 模板A：聊天AI版（豆包/DeepSeek/Kimi/通义千问等）</h3>
+<p style="font-size:13px;color:#666;margin-bottom:10px;">适用于支持图片上传的聊天AI工具。直接复制下方Prompt，上传你的产品图后发送。</p>
+
+<div class="prompt-box">
+<span class="label">📝 一键侵权排查 Prompt（聊天AI版）：</span>
+
+你是一名跨境电商侵权排查专家。我是一名卖家，现在我需要你帮我做一次全面的侵权排查。
+
+我会上传一张产品图片，请你按以下步骤逐一排查并给出明确结论：
+
+【第一步：文字排查】
+1. 识别图片中出现的所有文字（包括印花、Logo、标签、包装上的文字）
+2. 针对每一个识别到的文字/词组，判断：
+   - 是否是知名乐队名、歌手名、歌曲名或经典歌词？
+   - 是否是电影台词、动漫IP名称、游戏名称？
+   - 是否是海外网络流行梗（Meme）？
+   - 是否是已知品牌名或品牌广告语？
+3. 如果上述任何一项为"是"，请明确标注"⚠️高风险"，并说明原因
+
+【第二步：图案排查】
+1. 分析图片中的核心视觉元素、图案风格、线条特征
+2. 判断该图案是否高度相似：
+   - 某位海外独立插画师或艺术家的专有作品风格？
+   - 海外知名品牌的设计元素（如奢侈品花纹、潮牌Logo变体）？
+   - 知名动漫/电影/游戏IP的角色或视觉符号（如迪士尼、三丽鸥、吉卜力、漫威等）？
+3. 如果发现高度相似，请标注"⚠️高风险"，并说明与哪个IP/品牌/艺术家相似
+
+【第三步：综合判定】
+1. 汇总所有排查结果
+2. 给出最终判定：
+   ✅ 安全 — 未发现明显侵权风险
+   ⚠️ 需进一步验证 — 存在潜在风险，需人工复核
+   🚫 高风险 — 建议立即停止上架并整改
+3. 如果判定为⚠️或🚫，请给出具体的整改建议
+
+请现在开始，等我上传图片后进行排查。
+</div>
+
+<div class="warning-box" style="margin:12px 0;">
+<h4>💡 使用提示</h4>
+<p><strong>豆包：</strong>https://www.doubao.com — 免费，支持图片上传，中文理解强</p>
+<p><strong>DeepSeek：</strong>https://chat.deepseek.com — 免费，推理能力强</p>
+<p><strong>Google AI：</strong>在Google搜索中开启AI模式，上传图片直接提问</p>
+<p>建议同时用2个以上AI交叉验证，结果更可靠。</p>
+</div>
+
+<h3 style="color:#16213e;font-size:16px;margin:18px 0 10px;">🔷 模板B：Agent版（支持工具调用的AI Agent）</h3>
+<p style="font-size:13px;color:#666;margin-bottom:10px;">适用于支持联网搜索和工具调用的AI Agent（如ChatGPT with browsing、Coze、Dify等）。Agent会自动调用搜索工具完成全流程排查。</p>
+
+<div class="prompt-box">
+<span class="label">📝 一键侵权排查 System Prompt（Agent版）：</span>
+
+# 角色
+你是一名跨境电商侵权排查Agent，具备联网搜索和图片识别能力。你的任务是为卖家执行全自动侵权排查，覆盖文字商标、版权图案、知名IP三个维度。
+
+# 工作流程
+收到用户上传的产品图片后，按以下流程自动执行排查（每一步都必须调用工具验证，不可凭空回答）：
+
+## Step 1: 图片识别
+- 分析图片，提取所有可见文字（印花/Logo/标签/包装）
+- 识别核心图案元素、视觉风格、颜色特征、排版结构
+- 记录产品类别（服装/配饰/家居/电子等）
+
+## Step 2: 文字商标排查（调用搜索工具）
+对提取到的每个文字/词组，依次执行：
+1. 搜索 "[文字] trademark registration" — 查是否有商标注册
+2. 搜索 "[文字] TRO lawsuit cross-border seller" — 查是否有TRO维权记录
+3. 搜索 "[文字] meme origin meaning" — 查是否是网络流行梗
+4. 搜索 "[文字] band song lyrics artist" — 查是否涉及音乐版权
+5. 搜索 "[文字] brand slogan slogan" — 查是否是品牌广告语
+
+## Step 3: 图案版权排查（调用搜索工具）
+1. 搜索 "[图案描述关键词] original artist illustrator" — 查是否相似独立艺术家作品
+2. 搜索 "[图案描述关键词] brand design pattern trademark" — 查是否相似品牌设计
+3. 搜索 "[图案描述关键词] anime IP character copyright" — 查是否涉及动漫/影视IP
+4. 搜索 "[图案描述关键词] Shutterstock Etsy Redbubble" — 查是否是素材平台付费作品
+
+## Step 4: 综合判定与报告
+汇总所有搜索结果，输出结构化报告：
+
+### 📋 侵权排查报告
+**产品名称：** [产品名]
+**排查日期：** [日期]
+**排查工具：** [使用的搜索工具列表]
+
+**文字排查结果：**
+| 文字内容 | 商标查询 | TRO记录 | Meme/文化 | 音乐版权 | 风险等级 |
+|---------|---------|--------|----------|---------|---------|
+| [文字1] | [结果]  | [结果] | [结果]   | [结果]  | [等级]  |
+
+**图案排查结果：**
+| 排查维度 | 搜索结果 | 相似度 | 风险等级 |
+|---------|---------|-------|---------|
+| 独立艺术家 | [结果] | [高/中/低] | [等级] |
+| 品牌设计   | [结果] | [高/中/低] | [等级] |
+| 动漫IP     | [结果] | [高/中/低] | [等级] |
+| 素材平台   | [结果] | [高/中/低] | [等级] |
+
+**最终判定：** [✅安全 / ⚠️需复核 / 🚫高风险]
+**整改建议：** [如果需要整改，给出具体方案]
+
+# 重要规则
+1. 每一个判断都必须有搜索结果支撑，不可凭空回答
+2. 如果搜索结果模糊或无法确定，标注"⚠️需人工复核"
+3. 宁可过度警惕，不可遗漏风险
+4. 最终报告中必须包含所有搜索过的关键词，便于人工追溯验证
+</div>
+
+<div class="success-box" style="margin:12px 0;">
+<h4>✅ Agent版优势</h4>
+<p>① 自动调用搜索工具，无需手动到WIPO/USPTO逐一查询</p>
+<p>② 自动交叉验证，多个搜索结果互相印证</p>
+<p>③ 输出结构化报告，可直接存档</p>
+<p>④ 所有判断有搜索记录支撑，可追溯验证</p>
+</div>
+
+<h3 style="color:#16213e;font-size:16px;margin:18px 0 10px;">📊 两个模板对比</h3>
+<table>
+<tr><th>对比项</th><th>🔶 模板A（聊天AI版）</th><th>🔷 模板B（Agent版）</th></tr>
+<tr><td>适用工具</td><td>豆包/DeepSeek/Kimi/通义千问</td><td>ChatGPT(Coze/Dify等支持工具调用的Agent)</td></tr>
+<tr><td>是否需要联网</td><td>不需要（基于AI知识库判断）</td><td>需要（自动调用搜索工具）</td></tr>
+<tr><td>排查深度</td><td>中等（受限于AI训练数据）</td><td>深入（实时搜索最新信息）</td></tr>
+<tr><td>操作难度</td><td>极低（复制粘贴即可）</td><td>中等（需配置Agent环境）</td></tr>
+<tr><td>准确率</td><td>约70-80%（建议交叉验证）</td><td>约85-95%（多源验证）</td></tr>
+<tr><td>推荐场景</td><td>日常快速排查、初步筛选</td><td>上架前最终确认、高风险产品深度排查</td></tr>
+<tr><td>最佳实践</td><td colspan="2" style="text-align:center;">先用模板A快速筛查 → 发现潜在风险再用模板B深度验证</td></tr>
+</table>
+
+<div style="background:#e8f5e9;border-radius:10px;padding:16px;margin-top:14px;text-align:center;">
+<h4 style="color:#2e7d32;font-size:14px;margin-bottom:6px;">🎯 推荐组合用法</h4>
+<p style="font-size:13px;color:#333;">日常上新量大的商家：用模板A批量快速筛查所有产品 → 筛出可疑产品 → 用模板B对可疑产品做深度排查 → 确认安全后上新</p>
+</div>
+</div>
+
 <div class="footer">
 <p>热心商家分享 — 侵权排查指南 | 合规是底线 | 仅供学习参考</p>
 <p>文中所有产品外观、商标及图样权益归原权利人所有</p>
