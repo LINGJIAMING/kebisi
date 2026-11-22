@@ -137,6 +137,69 @@
   @media (prefers-reduced-motion:reduce){
     #dock .strip,#dock .panel{transition:none}
   }
+  /* ── scope notice band ── */
+  .scope-band{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    background:rgba(178,58,38,.07);border-left:4px solid var(--rust);
+    padding:12px 16px;margin:0 0 2px;
+  }
+  .scope-band .txt{font-size:13px;line-height:1.7;color:rgba(23,19,15,.78);font-weight:300}
+  .scope-band .txt b{font-family:"Noto Serif SC",serif;font-weight:700;color:var(--ink);letter-spacing:.01em}
+  .scope-band .txt em{font-style:normal;color:var(--rust);font-weight:700}
+  .scope-band .acts{display:flex;align-items:center;gap:8px}
+  .band-btn{
+    display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ink);
+    padding:7px 12px;font-size:11.5px;letter-spacing:.05em;background:transparent;color:var(--ink);
+    font-family:"Noto Serif SC",serif;font-weight:700;cursor:pointer;transition:all .3s;
+  }
+  .band-btn:hover{background:var(--ink);color:var(--paper)}
+  .band-btn.solid{background:var(--ink);color:var(--paper)}
+  .band-btn.solid:hover{background:var(--rust);border-color:var(--rust)}
+  /* ── guide page ── */
+  .guide-hero{border:1px solid var(--line);background:var(--card);padding:26px 24px}
+  .guide-hero h2{font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(22px,3.4vw,34px);line-height:1.28;letter-spacing:-.01em}
+  .guide-hero h2 em{font-style:normal;color:var(--rust)}
+  .guide-hero p{margin-top:12px;font-size:13px;line-height:1.85;color:rgba(23,19,15,.62);font-weight:300;max-width:52rem}
+  .cat-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .cat-chip{
+    display:inline-flex;align-items:baseline;gap:8px;border:1px solid var(--line);background:rgba(23,19,15,.02);
+    padding:9px 13px;cursor:pointer;transition:all .3s;font-size:12.5px;color:var(--ink);
+  }
+  .cat-chip .n{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.14em;color:var(--rust)}
+  .cat-chip .c{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted)}
+  .cat-chip:hover{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+  .cat-chip:hover .n,.cat-chip:hover .c{color:rgba(242,237,227,.72)}
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:10px;border:1px solid var(--line);border-right:0}
+  .step{padding:22px 20px 24px;border-right:1px solid var(--line);background:var(--card);position:relative}
+  .step .no{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:700;line-height:1;color:rgba(23,19,15,.14);letter-spacing:-.02em}
+  .step h3{font-family:"Noto Serif SC",serif;font-weight:700;font-size:14.5px;margin-top:10px}
+  .step p{margin-top:8px;font-size:12px;line-height:1.8;color:rgba(23,19,15,.6);font-weight:300}
+  .step p b{color:var(--ink);font-weight:500}
+  .guide-cta{
+    margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    background:var(--ink);color:var(--paper);padding:20px 24px;
+  }
+  .guide-cta .t{font-family:"Noto Serif SC",serif;font-weight:700;font-size:17px;letter-spacing:.02em}
+  .guide-cta .d{font-size:11.5px;font-weight:300;color:rgba(242,237,227,.62);margin-top:5px}
+  .guide-cta .big{
+    display:inline-flex;align-items:center;gap:9px;background:var(--rust);color:#FBF8F1;
+    padding:12px 22px;font-family:"Noto Serif SC",serif;font-weight:700;font-size:14px;
+    letter-spacing:.04em;transition:transform .3s,background .3s;
+  }
+  .guide-cta .big:hover{background:#FBF8F1;color:var(--ink);transform:translateY(-1px)}
+  .guide-notes{margin-top:10px;border:1px solid var(--line);background:rgba(23,19,15,.02);padding:18px 20px}
+  .guide-notes li{font-size:12px;line-height:1.95;color:rgba(23,19,15,.66);font-weight:300;padding-left:14px;position:relative}
+  .guide-notes li::before{content:"—";position:absolute;left:0;color:var(--rust)}
+  .guide-notes li b{color:var(--ink);font-weight:500}
+  @media (max-width:900px){
+    .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--line)}
+  }
+  @media (max-width:640px){
+    .steps{grid-template-columns:1fr;border-right:1px solid var(--line)}
+    .step{border-right:0;border-bottom:1px solid var(--line)}
+    .step:last-child{border-bottom:0}
+  }
   /* entrance */
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
   .rise{animation:rise .7s cubic-bezier(.22,1,.36,1) both}
@@ -153,6 +216,39 @@
   .card .tag{background:rgba(251,248,241,.92);backdrop-filter:blur(4px)}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   .fadein{animation:fadein .4s ease both}
+
+  /* ── 醒目赛道导航 ── */
+  #tabs{gap:10px;padding:12px 0}
+  #tabs .tab{min-width:0;padding:11px 16px 12px;border:1px solid var(--line);background:rgba(23,19,15,.035);transition:all .25s}
+  #tabs .tab .tab-name{font-size:16px;margin-top:4px;color:rgba(23,19,15,.82)}
+  #tabs .tab .tab-no{font-size:9.5px;color:var(--muted)}
+  #tabs .tab .tab-count{font-size:10.5px;margin-top:2px}
+  #tabs .tab:hover{border-color:var(--rust);background:rgba(178,58,38,.08);transform:translateY(-1px)}
+  #tabs .tab.active{background:var(--ink);border-color:var(--ink);box-shadow:6px 7px 0 -2px rgba(178,58,38,.32)}
+  #tabs .tab.active .tab-name,#tabs .tab.active .tab-count{color:var(--paper)}
+  #tabs .tab.active .tab-no{color:rgba(242,237,227,.62)}
+  #tabs .tab .bar{display:none}
+  #tabs .tab.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--rust)}
+  /* ── 上款路径表 ── */
+  .path-group{border:1px solid var(--line);background:var(--card);margin-top:10px}
+  .path-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(23,19,15,.025)}
+  .path-title{font-family:"Noto Serif SC",serif;font-weight:700;font-size:16px;letter-spacing:.02em}
+  .path-sub{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;color:var(--muted)}
+  .path-head .band-btn{margin-left:auto}
+  .path-row{display:grid;grid-template-columns:minmax(200px,30%) 1fr;border-bottom:1px solid var(--line)}
+  .path-row:last-child{border-bottom:0}
+  .path-scene{padding:16px 18px;font-size:13px;line-height:1.72;border-right:1px solid var(--line);white-space:pre-wrap;color:rgba(23,19,15,.82)}
+  .path-scene .idx{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.14em;color:var(--rust);margin-bottom:6px}
+  .path-list{padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+  .path-item code{display:block;font-family:"JetBrains Mono",monospace;font-size:11.5px;line-height:1.7;
+    color:rgba(23,19,15,.82);background:rgba(23,19,15,.035);border-left:2px solid rgba(178,58,38,.4);
+    padding:7px 11px;word-break:break-all;cursor:pointer;transition:background .2s}
+  .path-item code:hover{background:rgba(178,58,38,.1)}
+  .path-item code.copied{background:var(--ink);color:var(--paper);border-left-color:var(--rust)}
+  @media (max-width:760px){
+    .path-row{grid-template-columns:1fr}
+    .path-scene{border-right:0;border-bottom:1px dashed var(--line)}
+  }
 </style>
 </head>
 <body class="min-h-screen">
@@ -208,16 +304,26 @@
         </a>
       </div>
     </div>
+    <div class="scope-band">
+      <div class="txt">
+        <b>五个赛道都能提报</b> —— 军服（含彩弹射击服） / 滑雪 / 雨衣 / 防晒 / 户外背心与长短裤，
+        <em>不止军服</em>；任意 Tab 下的任务都是同一套提报路径。
+      </div>
+      <div class="acts">
+        <button class="band-btn" id="bandGuide">上款路径 ↗</button>
+        <a href="https://seller.kuajingmaihuo.com/questionnaire?surveyId=268657028616" target="_blank" rel="noopener" class="band-btn solid">任务提报问卷 ↗</a>
+      </div>
+    </div>
     <div class="thick-rule"></div>
   </header>
 
   <!-- ── TABS ── -->
   <nav class="sticky top-0 z-30 bg-[var(--paper)]/95 backdrop-blur-sm px-5 sm:px-8 lg:px-14 border-b border-[var(--line)]">
-    <div class="flex items-stretch gap-6 sm:gap-10 overflow-x-auto scroll-x" id="tabs"></div>
+    <div class="flex flex-wrap items-stretch gap-2.5 py-2.5" id="tabs"></div>
   </nav>
 
   <!-- ── TOOLBAR ── -->
-  <div class="px-5 sm:px-8 lg:px-14 pt-8 pb-2 flex flex-wrap items-end justify-between gap-5">
+  <div id="toolbar" class="px-5 sm:px-8 lg:px-14 pt-8 pb-2 flex flex-wrap items-end justify-between gap-5">
     <div>
       <div class="serif text-2xl sm:text-[28px] font-bold leading-tight" id="secTitle">军服</div>
       <div class="label mt-1.5" id="secMeta">CATEGORY 01 / ARMY &amp; TACTICAL</div>
@@ -273,7 +379,152 @@ const TABS = [
   {key:'rain',    no:'03', name:'雨衣',      sub:'RAINWEAR',               note:''},
   {key:'sun',     no:'04', name:'防晒',      sub:'SUN PROTECTION',         note:''},
   {key:'outdoor', no:'05', name:'户外背心与长短裤', sub:'OUTDOOR VEST & BOTTOMS', note:''},
-  {key:'other',   no:'06', name:'未归类',    sub:'UNCLASSIFIED',           note:'类目未纳入五大赛道'}
+  {key:'other',   no:'06', name:'未归类',    sub:'UNCLASSIFIED',           note:'类目未纳入五大赛道'},
+  {key:'guide',   no:'07', name:'上款路径',  sub:'SUBMISSION PATH',        note:''}
+];
+const SURVEY_URL = 'https://seller.kuajingmaihuo.com/questionnaire?surveyId=268657028616';
+const PATH_ROWS = [
+ {
+  "tab": "army",
+  "scene": "经典男士军装外套与夹克：战术外套,飞行员夹克,猎装夹克,甲板服,防寒服",
+  "paths": [
+   "服装、鞋靴和珠宝饰品 > 制服、工作服和防护服 > 制服、工作服和防护服装 > 军服 > 男士 > 男军服外套、夹克",
+   "服装、鞋靴和珠宝饰品 > 男士时尚 > 男士商店 > 男士制服、工作服和防护服 > 男士工作和安全服饰 > 男军服 > 男军服外套、夹克"
+  ]
+ },
+ {
+  "tab": "army",
+  "scene": "经典男士军用裤装：现代现代战术裤/蛙裤,Cargo Pants,贝克裤/四袋工作裤",
+  "paths": [
+   "服装、鞋靴和珠宝饰品 > 制服、工作服和防护服 > 制服、工作服和防护服装 > 军服 > 男士 > 男军服短裤",
+   "服装、鞋靴和珠宝饰品 > 制服、工作服和防护服 > 制服、工作服和防护服装 > 军服 > 男士 > 男军服下装",
+   "服装、鞋靴和珠宝饰品 > 男士时尚 > 男士商店 > 男士制服、工作服和防护服 > 男士工作和安全服饰 > 男军服 > 男军服短裤",
+   "服装、鞋靴和珠宝饰品 > 男士时尚 > 男士商店 > 男士制服、工作服和防护服 > 男士工作和安全服饰 > 男军服 > 男军服下装"
+  ]
+ },
+ {
+  "tab": "army",
+  "scene": "经典男士军用上衣（非外套、非大衣）：两用袖/长袖制式衬衫,作战服/战术上衣,体能训练服",
+  "paths": [
+   "服装、鞋靴和珠宝饰品 > 男士时尚 > 男士商店 > 男士制服、工作服和防护服 > 男士工作和安全服饰 > 男军服 > 男军服上衣",
+   "服装、鞋靴和珠宝饰品 > 制服、工作服和防护服 > 制服、工作服和防护服装 > 军服 > 男士 > 男军服上衣"
+  ]
+ },
+ {
+  "tab": "army",
+  "scene": "男军服套装,彩弹射击服,战术服套装",
+  "paths": [
+   "运动与户外用品>户外休闲>彩弹用品>彩弹射击服",
+   "服装、鞋靴和珠宝饰品 > 制服、工作服和防护服 > 制服、工作服和防护服装 > 军服 > 男士 > 男军服套装",
+   "服装、鞋靴和珠宝饰品 > 男士时尚 > 男士商店 > 男士制服、工作服和防护服 > 男士工作和安全服饰 > 男军服 > 男军服套装"
+  ]
+ },
+ {
+  "tab": "ski",
+  "scene": "单板滑雪服：宽松 oversize、上衣偏长、裤裆低、裤脚宽（罩住雪靴）",
+  "paths": [
+   "服装、鞋靴和珠宝饰品>体育专用服装>单板滑雪服>男士单板滑雪服>男士单板滑雪套装",
+   "运动与户外用品>户外休闲>冬季运动>单板滑雪用品>服装>男士单板滑雪服>男士单板滑雪套装",
+   "服装、鞋靴和珠宝饰品>体育专用服装>单板滑雪服>男士单板滑雪服>男士单板滑雪裤",
+   "服装、鞋靴和珠宝饰品>体育专用服装>单板滑雪服>男士单板滑雪服>男士单板滑雪夹克",
+   "运动与户外用品>户外休闲>冬季运动>单板滑雪用品>加厚短裤"
+  ]
+ },
+ {
+  "tab": "ski",
+  "scene": "双板滑雪服：常规修身、立体膝位、可收腰、后摆偏长（护椅坐）",
+  "paths": [
+   "运动与户外用品 > 户外休闲 > 冬季运动 > 滑雪用品 > 服装 > 男士滑雪服 > 男士滑雪套装",
+   "运动与户外用品 > 户外休闲 > 冬季运动 > 滑雪用品 > 服装 > 男士滑雪服 > 男士滑雪夹克",
+   "运动与户外用品 > 运动服装和器材 > 冰雪运动用品 > 滑雪用品 > 服装 > 男士滑雪服 > 男士滑雪裤 > 男士滑雪裤",
+   "服装、鞋靴和珠宝饰品>体育专用服装>滑雪服>男士滑雪服>男士滑雪裤>男士滑雪背带裤"
+  ]
+ },
+ {
+  "tab": "rain",
+  "scene": "自行车骑行",
+  "paths": [
+   "服装、鞋靴和珠宝饰品>体育专用服装>骑行服>男士骑行服>男士骑行裤装>男士骑行雨裤",
+   "服装、鞋靴和珠宝饰品>体育专用服装>骑行服>男士骑行服>男士骑行雨披",
+   "服装、鞋靴和珠宝饰品>体育专用服装>骑行服>男士骑行服>男士骑行雨衣"
+  ]
+ },
+ {
+  "tab": "rain",
+  "scene": "摩托车",
+  "paths": [
+   "运动与户外用品>运动服装和器材>骑行用品>服装>男士骑行服>男士骑行雨披",
+   "汽车用品>摩托车用品>摩托骑行服装>摩托车防雨衣>摩托车防雨衣裤",
+   "汽车用品>摩托车用品>摩托骑行服装>摩托车防雨衣>摩托车防雨裤",
+   "汽车用品>摩托车用品>摩托骑行服装>摩托车防雨衣>摩托车雨衣"
+  ]
+ },
+ {
+  "tab": "rain",
+  "scene": "户外徒步",
+  "paths": [
+   "运动与户外用品>运动户外服饰>男士运动户外服饰>男士雨衣"
+  ]
+ },
+ {
+  "tab": "rain",
+  "scene": "时尚通勤",
+  "paths": [
+   "服装、鞋靴和珠宝饰品>男士时尚>男装>男士外套>男士风衣、雨衣>男士雨衣"
+  ]
+ },
+ {
+  "tab": "sun",
+  "scene": "男士防晒衫：把防晒做成一件能穿进办公室的薄外套，防晒是里子、版型是面子",
+  "paths": [
+   "服装、鞋靴和珠宝饰品>男士时尚>男装>男士时尚泳衣>男士防晒衫"
+  ]
+ },
+ {
+  "tab": "sun",
+  "scene": "防晒衣：为动起来设计的贴身防晒，风阻与排汗优先于遮阳结构",
+  "paths": [
+   "运动与户外用品>运动户外服饰>男士运动户外服饰>男士运动休闲泳装、冲浪装和潜水服>防晒衣"
+  ]
+ },
+ {
+  "tab": "sun",
+  "scene": "男士潜水防晒衣：为入水而生，湿态也要防晒，且不掉色不变形不磨皮肤",
+  "paths": [
+   "运动与户外用品 > 户外休闲 > 冲浪用品 > 水上用品 > 防晒衣 > 男士潜水防晒衣"
+  ]
+ },
+ {
+  "tab": "outdoor",
+  "scene": "户外马甲背心",
+  "paths": [
+   "运动与户外用品 / 户外休闲 / 攀岩用品 / 服装 / 男士户外服饰 / 男士徒步和户外休闲背心"
+  ]
+ },
+ {
+  "tab": "outdoor",
+  "scene": "攀岩短裤",
+  "paths": [
+   "运动与户外用品>户外休闲>攀岩用品>服装>男士户外服饰>男士户外短裤"
+  ]
+ },
+ {
+  "tab": "outdoor",
+  "scene": "攀岩长裤",
+  "paths": [
+   "运动与户外用品>户外休闲>攀岩用品>服装>男士户外服饰>男士户外长裤"
+  ]
+ },
+ {
+  "tab": "outdoor",
+  "scene": "击剑服饰",
+  "paths": [
+   "运动与户外用品>运动服装和器材>其他运动类型>击剑用品>击剑护具>击剑夹克",
+   "运动与户外用品>运动服装和器材>其他运动类型>击剑用品>击剑护具>击剑短裤",
+   "运动与户外用品>运动服装和器材>团队运动>其他团体运动>击剑>击剑护具>击剑夹克",
+   "运动与户外用品>运动服装和器材>团队运动>其他团体运动>击剑>击剑护具>击剑短裤"
+  ]
+ }
 ];
 
 const PLATFORM = {'rakuten.co.jp':'乐天 JP','naver.com':'NAVER','aliexpress.com':'AliExpress','aliexpress.us':'AliExpress','amazon.ca':'Amazon CA','amazon.com':'Amazon','amazon.co.jp':'Amazon JP','qoo10':'Qoo10','yahoo':'Yahoo','shopee':'Shopee','lazada':'Lazada','ebay':'eBay','11st':'11ST','coupang':'Coupang'};
@@ -282,7 +533,7 @@ function platform(dom){
   return dom.replace(/^www\./,'').split('.')[0] || '—';
 }
 
-let state = {tab:'army', q:'', sort:'default'};
+let state = {tab:'guide', q:'', sort:'default'};
 
 /* ── stats ── */
 document.getElementById('statTotal').textContent = DATA.length;
@@ -294,6 +545,14 @@ document.getElementById('dateStamp').textContent = now.toISOString().slice(0,10)
 function renderTabs(){
   const box = document.getElementById('tabs');
   box.innerHTML = TABS.map(t=>{
+    if(t.key==='guide'){
+      return `<button class="tab shrink-0 min-w-[104px] ${state.tab===t.key?'active':''}" data-tab="guide">
+        <div class="tab-no">${t.no} · GUIDE</div>
+        <div class="tab-name">${t.name}</div>
+        <div class="tab-count">怎么提报</div>
+        <div class="bar"></div>
+      </button>`;
+    }
     const n = DATA.filter(d=>d.tab===t.key).length;
     if(!n) return '';
     return `<button class="tab shrink-0 min-w-[104px] ${state.tab===t.key?'active':''}" data-tab="${t.key}">
@@ -303,17 +562,89 @@ function renderTabs(){
       <div class="bar"></div>
     </button>`;
   }).join('');
-  box.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{
-    state.tab=b.dataset.tab; renderTabs(); render();
-    window.scrollTo({top:document.querySelector('nav').offsetTop-2,behavior:'smooth'});
-  });
+  box.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>goTab(b.dataset.tab));
+}
+
+function goTab(key){
+  state.tab=key; renderTabs(); render();
+  const nav=document.querySelector('nav');
+  window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'});
 }
 
 /* ── grid ── */
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
+/* ── guide / submission path ── */
+const CAT_TABS = TABS.filter(t=>['army','ski','rain','sun','outdoor'].includes(t.key));
+
+function renderGuide(){
+  document.getElementById('toolbar').classList.add('hidden');
+  const grid = document.getElementById('grid');
+  grid.className = 'px-5 sm:px-8 lg:px-14 py-8 fadein';
+
+  const groups = ['army','ski','rain','sun','outdoor'].map(k=>{
+    const t = TABS.find(x=>x.key===k);
+    const rows = PATH_ROWS.filter(r=>r.tab===k);
+    if(!rows.length) return '';
+    const items = rows.map((r,i)=>`
+      <div class="path-row">
+        <div class="path-scene"><span class="idx">${t.no}.${i+1} · SCENE</span>${esc(r.scene)}</div>
+        <div class="path-list">${r.paths.map(p=>`<div class="path-item"><code>${esc(p)}</code></div>`).join('')}</div>
+      </div>`).join('');
+    return `<section class="path-group rise">
+      <div class="path-head">
+        <div>
+          <div class="path-title">${t.no} · ${t.name}</div>
+          <div class="path-sub">${t.sub} · ${rows.length} 个场景线</div>
+        </div>
+        <button class="band-btn" data-go="${k}">进入该赛道选款 ↗</button>
+      </div>
+      ${items}
+    </section>`;
+  }).join('');
+
+  grid.innerHTML = `
+    <section class="guide-hero rise">
+      <div class="label">PATH · 上款路径</div>
+      <h2 class="mt-3">上款前，先按路径<em>选对类目</em></h2>
+      <p>下面是五个赛道各场景线在后台发布商品时要选的<b>类目路径</b>（从一级类目到叶子类目）。
+         点任一条路径即可复制；同一场景有多条路径的，任选一条能走到最末级类目的即可。</p>
+    </section>
+    ${groups}
+    <div class="guide-cta rise" style="animation-delay:140ms">
+      <div>
+        <div class="t">类目对了，再把任务提报上来</div>
+        <div class="d">在赛道里复制任务ID → 问卷填写任务ID + 同款 / 相似款 SPU</div>
+      </div>
+      <a href="${SURVEY_URL}" target="_blank" rel="noopener" class="big">打开提报问卷 <span>↗</span></a>
+    </div>
+    <ul class="guide-notes rise" style="animation-delay:200ms">
+      <li>路径按<b>一级 &gt; 二级 &gt; 三级 …</b> 逐级选择，最后一级即发布时要落的叶子类目。</li>
+      <li>点击路径文字即<b>复制整条路径</b>，复制后底色变深，可直接粘贴到后台类目搜索框。</li>
+      <li>五个赛道的任务都能提报；已回品-审核完成的任务无需重复提报。</li>
+    </ul>`;
+
+  grid.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>goTab(b.dataset.go));
+  grid.querySelectorAll('.path-item code').forEach(el=>{
+    el.dataset.path = el.textContent;
+    el.onclick = async ()=>{
+      const txt = el.dataset.path;
+      try{ await navigator.clipboard.writeText(txt); }catch(e){
+        const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      el.classList.add('copied');
+      el.textContent = '已复制 ✓  ' + txt.slice(0,18) + '…';
+      clearTimeout(el._t);
+      el._t = setTimeout(()=>{ el.textContent = txt; el.classList.remove('copied'); }, 1100);
+    };
+  });
+}
+
 function render(){
   const t = TABS.find(x=>x.key===state.tab);
+  if(state.tab==='guide'){ renderGuide(); return; }
+  document.getElementById('toolbar').classList.remove('hidden');
   let list = DATA.filter(d=>d.tab===state.tab);
   if(state.q){
     const q=state.q.toLowerCase();
@@ -327,6 +658,7 @@ function render(){
 
   const grid = document.getElementById('grid');
   if(!list.length){
+    grid.className = 'px-5 sm:px-8 lg:px-14 py-6';
     grid.innerHTML = `<div class="py-24 text-center"><div class="label">No records</div><div class="serif text-xl mt-3 text-[rgba(23,19,15,.5)]">未找到匹配的任务</div></div>`;
     return;
   }
@@ -434,13 +766,14 @@ document.getElementById('search').oninput=e=>{
 document.getElementById('sort').onchange=e=>{state.sort=e.target.value;render();};
 
 renderTabs(); render();
+document.getElementById('bandGuide').onclick=()=>goTab('guide');
 </script>
 <!-- ── FLOATING SURVEY DOCK ── -->
 <a id="dock" href="https://seller.kuajingmaihuo.com/questionnaire?surveyId=268657028616" target="_blank" rel="noopener" aria-label="打开任务提报问卷">
   <span class="panel">
     <span class="k">SURVEY · OPEN</span>
     <span class="t block">任务提报问卷 ↗</span>
-    <span class="d block">填写任务ID 与对应同款 / 相似款 SPU</span>
+    <span class="d block">五个赛道均可提报 · 任务ID + 同款 SPU</span>
   </span>
   <span class="strip">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3h7v7"/><path d="M10.5 13.5L21 3"/><path d="M18 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg>
